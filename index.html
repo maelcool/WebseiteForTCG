@@ -1,17 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">   
+<html lang="de">   
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
     <title>Jugger TCG</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header>
+        <nav>
+            <ul class="nav_links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Karten</a></li>
+                <li><a href="#">Decks</a></li>
+                <li><a href="#">Community</a></li>
+            </ul>
+    </header>
     <div class="container">
         <h1>Jugger TCG</h1>
-        <p>This is a sample webpage created to demonstrate HTML structure and styling.</p>
-        <button class="btn">Click Me</button>
+        <p>Hier kannst du nach Karten suchen</p>
+        <input type="text" id="searchName" placeholder="Karte suchen...">
+        <p id="CardDisplay">Display</p>
     </div>
+
+    
 </body>
 <script src="main.js"></script>
 </html>
