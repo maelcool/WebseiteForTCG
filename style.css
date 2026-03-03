@@ -28,3 +28,30 @@ header{
     color: rgb(255, 255, 255); 
 }
 
+.card-container {
+    display: flex;            /* makes children line up horizontally */
+    flex-wrap: wrap;          /* allows cards to wrap to the next line */
+    gap: 16px;                /* spacing between cards */
+    border-radius: 5px;
+    justify-content: flex-start; /* align cards to the left */
+}
+
+.card {
+    background: #6c6c6c;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 200px;            /* fixed width for uniform cards */
+    text-align: center;
+}
+.card:hover {
+    box-shadow: 0 8px 80px rgba(0, 0, 0, 0.3);
+}
+
+.card-image {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
