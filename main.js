@@ -1,11 +1,16 @@
-const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZx3ik0FpEurNSQieDO0e69d2dhglDVL0wg0iBdmErqTXJ7fARSmLtPhDs2KGWBg8NBCbvAIdanvZy/pub?output=csv"
+const urlTab1 = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZx3ik0FpEurNSQieDO0e69d2dhglDVL0wg0iBdmErqTXJ7fARSmLtPhDs2KGWBg8NBCbvAIdanvZy/pub?output=csv&gid=0";
+const urlTab2 = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZx3ik0FpEurNSQieDO0e69d2dhglDVL0wg0iBdmErqTXJ7fARSmLtPhDs2KGWBg8NBCbvAIdanvZy/pub?output=csv&gid=1888527243";
+const urlTab3 = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZx3ik0FpEurNSQieDO0e69d2dhglDVL0wg0iBdmErqTXJ7fARSmLtPhDs2KGWBg8NBCbvAIdanvZy/pub?output=csv&gid=1035948475";
 const cardDisplay = document.getElementById("CardDisplay");
 const searchName = document.getElementById("searchName");
+const emailInput = document.getElementById("emailInput");
+const nameInput = document.getElementById("nameInput");
+const form = document.getElementById("registrationForm");
 const sheetCode = "1p8Q9kmKCNCVNvKaVdelb9MtS1WdwdtSGKbFHr5wvOgU"
 
 let cardsData = []; 
 
-async function loadCards() {
+async function loadCards(url) {
     try {
         const res = await fetch(url);
         const csvText = await res.text();
@@ -64,4 +69,21 @@ searchName.addEventListener("input", () => {
     displayCards(filtered);
 });
 
-loadCards()
+async function loadAllTabs() {
+    const urls = [urlTab1, urlTab2, urlTab3];
+    let allCards = [];
+
+    for (const url of urls) {
+        const res = await fetch(url);
+        const csvText = await res.text();
+        const result = Papa.parse(csvText, { header: true });
+        allCards = allCards.concat(result.data);
+    }
+
+    cardsData = allCards;
+    displayCards(cardsData);
+    cardDisplay.innerHTML += `<p>Loaded ${cardsData.length} cards.</p>`;
+}
+
+
+loadAllTabs();
