@@ -3,7 +3,6 @@ const urlTab2 = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZx3ik0FpEurNS
 const urlTab3 = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZx3ik0FpEurNSQieDO0e69d2dhglDVL0wg0iBdmErqTXJ7fARSmLtPhDs2KGWBg8NBCbvAIdanvZy/pub?output=csv&gid=1035948475";
 const cardDisplay = document.getElementById("CardDisplay");
 const searchName = document.getElementById("searchName");
-const emailInput = document.getElementById("emailInput");
 const nameInput = document.getElementById("nameInput");
 const form = document.getElementById("registrationForm");
 const sheetCode = "1p8Q9kmKCNCVNvKaVdelb9MtS1WdwdtSGKbFHr5wvOgU"
@@ -45,10 +44,12 @@ function displayCards(cards) {
         else{
             const imageId = card.KarteGanz.split("/d/")[1].split("/")[0];
             html += `
+            <a href="card.html?name=${encodeURIComponent(card.Name)}" class="card-link">
                 <div class="card">
                     <h3>${card.Name}</h3>
                     <img src="https://drive.google.com/thumbnail?id=${imageId}" alt="Bild von ${card.Name}" class="card-image">
                 </div>
+            </a>
             `;
         }
     }
@@ -69,7 +70,7 @@ searchName.addEventListener("input", () => {
     displayCards(filtered);
 });
 
-async function loadAllTabs() {
+export async function loadAllTabs() {
     const urls = [urlTab1, urlTab2, urlTab3];
     let allCards = [];
 
@@ -83,7 +84,25 @@ async function loadAllTabs() {
     cardsData = allCards;
     displayCards(cardsData);
     cardDisplay.innerHTML += `<p>Loaded ${cardsData.length} cards.</p>`;
+
+    return allCards;
 }
 
+function loadSingleCard(cards){
+    const params = new URLSearchParams(window.location.search);
+    const cardName = params.get("name");
 
-loadAllTabs();
+    if(!cardName) return;
+
+    const card = cards.find(c => c.Name === cardName);
+
+    if(!card) return;
+
+    document.getElementById("card-name").textContent = card.Name;
+
+    if(card.KarteGanz){
+        const imageId = card.KarteGanz.split("/d/")[1].split("/")[0];
+        document.getElementById("card-image").src =
+            `https://drive.google.com/thumbnail?id=${imageId}`;
+    }
+}
